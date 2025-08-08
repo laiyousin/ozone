@@ -53,6 +53,7 @@ export type Bucket = {
   owner: string;
   acls?: Acl[];
   bucketLayout: BucketLayout;
+  replicationConfigInfo?: BucketReplicationConfigInfo;
 }
 
 export type BucketResponse = {
@@ -76,4 +77,11 @@ export type BucketsTableProps = {
   selectedColumns: MultiOption[];
   searchColumn: 'name' | 'volumeName';
   searchTerm: string;
+}
+
+export type BucketReplicationConfigInfo = {
+  replicationConfig: {
+    replicationType: string;
+    replicationFactor: string;
+  };
 }

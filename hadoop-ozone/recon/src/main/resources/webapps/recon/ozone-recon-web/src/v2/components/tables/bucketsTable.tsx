@@ -41,10 +41,12 @@ import {
   Bucket,
   BucketLayout,
   BucketLayoutTypeList,
+  BucketReplicationConfigInfo,
   BucketsTableProps,
   BucketStorage,
   BucketStorageTypeList
 } from '@/v2/types/bucket.types';
+import { ReplicationIcon } from '@/utils/themeIcons';
 
 function renderIsVersionEnabled(isVersionEnabled: boolean) {
   return isVersionEnabled
@@ -182,7 +184,26 @@ export const COLUMNS: ColumnsType<Bucket> = [
     render: (sourceBucket: string) => {
       return sourceBucket ? sourceBucket : 'NA';
     }
-  }
+  },
+  {
+    title: 'Replication Type & Factor',
+    dataIndex: 'replicationConfigInfo',
+    key: 'replicationConfigInfo',
+    render: (replicationConfigInfo: BucketReplicationConfigInfo, record: Bucket) => {
+      if (!replicationConfigInfo) return 'N/A';
+      const { replicationFactor, replicationType } = replicationConfigInfo.replicationConfig || {};
+      return (
+        <span>
+          <ReplicationIcon
+            replicationFactor={replicationFactor || ""}
+            replicationType={replicationType || ""}
+            leaderNode={""}
+            isLeader={false} />
+          {replicationType} ({replicationFactor})
+        </span>
+      );
+    }
+  },
 ];
 
 const BucketsTable: React.FC<BucketsTableProps> = ({
